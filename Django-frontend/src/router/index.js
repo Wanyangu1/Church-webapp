@@ -5,14 +5,17 @@ import ItemList from "../components/ItemList.vue";
 import ItemDetail from "../components/ItemDetail.vue";
 import Register from "../components/Register.vue";
 import Login from "../components/Login.vue";
+import CreateItem from "../components/CreateItem.vue"
 
 const routes = [
   { path: "/", component: Login },
   { path: "/dashboard", component: Dashboard },
-  { path: "/items", component: ItemList },
+  { path: "/members", component: ItemList },
+  { path: "/leadership", component: ItemList },
   { path: "/items/:id", component: ItemDetail },
   { path: "/register", component: Register },
   { path: "/login", component: Login },
+  { path: "/createuser", component: CreateItem },
 ];
 
 const router = createRouter({

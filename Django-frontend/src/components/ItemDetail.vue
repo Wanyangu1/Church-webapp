@@ -1,47 +1,4 @@
 <!-- src/components/ItemDetail.vue -->
-<template>
-  <div>
-    <Navbar />
-
-    <div class="container mt-5">
-      <div v-if="item" class="card">
-        <div class="card-header">
-          <h3>Item Detail</h3>
-        </div>
-        <div class="card-body">
-          <div class="mb-3">
-            <label for="name" class="form-label">Name:</label>
-            <input
-              type="text"
-              id="name"
-              class="form-control"
-              v-model="item.name"
-            />
-          </div>
-          <div class="mb-3">
-            <label for="description" class="form-label">Description:</label>
-            <textarea
-              id="description"
-              class="form-control"
-              v-model="item.description"
-            ></textarea>
-          </div>
-          <button @click="updateItem" class="btn btn-outline-primary me-2">
-            Update
-          </button>
-          <button @click="deleteItem" class="btn btn-outline-danger">Delete</button>
-          <router-link to="/items" class="btn btn-outline-secondary ms-2"
-            >Back to List</router-link
-          >
-        </div>
-      </div>
-      <div v-else class="alert alert-warning">
-        <p>Loading item...</p>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script setup>
 import { ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
@@ -101,3 +58,48 @@ const deleteItem = async () => {
 
 onMounted(fetchItem);
 </script>
+
+<template>
+  <div>
+    <Navbar />
+
+    <div class="container mt-5">
+      <div v-if="item" class="card">
+        <div class="card-header">
+          <h3>Member Detail</h3>
+        </div>
+        <div class="card-body">
+          <div class="mb-3">
+            <label for="name" class="form-label">Name:</label>
+            <input
+              type="text"
+              id="name"
+              class="form-control"
+              v-model="item.name"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="description" class="form-label">Description:</label>
+            <textarea
+              id="description"
+              class="form-control"
+              v-model="item.description"
+            ></textarea>
+          </div>
+          <button @click="updateItem" class="btn btn-outline-primary me-2">
+            Update
+          </button>
+          <button @click="deleteItem" class="btn btn-outline-danger">Delete</button>
+          <router-link to="/items" class="btn btn-outline-secondary ms-2"
+            >Back to List</router-link
+          >
+        </div>
+      </div>
+      <div v-else class="alert alert-warning">
+        <p>Loading item...</p>
+      </div>
+    </div>
+  </div>
+</template>
+
+

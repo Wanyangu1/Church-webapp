@@ -8,85 +8,20 @@
         <div v-if="!loggedIn" class="alert alert-warning">
           <p>Please log in to view your dashboard.</p>
           <router-link to="/login" class="btn btn-primary">Login</router-link>
-          <router-link to="/register" class="btn btn-secondary"
-            >Register</router-link
-          >
+          <router-link to="/register" class="btn btn-secondary">Register</router-link>
         </div>
 
         <div v-else>
           <div class="row">
-            <div class="col-lg-12">
-              <div class="card mb-4">
-                <div class=" card-header ">
-                  <h3>Item List</h3>
+            <div class="col-md-4 mb-4" v-for="card in cards" :key="card.title">
+              <router-link :to="card.link" class="card h-100 text-decoration-none text-dark">
+                <div class="card-body text-center">
+                  <i :class="`bi ${card.icon} mb-3`" style="font-size: 2rem;"></i>
+                  <h5 class="card-title">{{ card.title }}</h5>
+                  <p class="card-text">{{ card.description }}</p>
+                  <p class="card-text"><small class="text-muted">{{ card.info }}</small></p>
                 </div>
-                <div class="card-body">
-                  <table class="table table-striped table-hover">
-                    <thead>
-                      <tr>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th>Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr v-for="item in items" :key="item.id">
-                        <td>{{ item.name }}</td>
-                        <td>{{ item.description }}</td>
-                        <td>
-                          <router-link
-                            :to="'/items/' + item.id"
-                            class="btn btn-outline-info btn-sm"
-                            >View</router-link
-                          >
-                          <button
-                            @click="deleteItem(item.id)"
-                            class="btn btn-danger btn-sm"
-                          >
-                            Delete
-                          </button>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-lg-12">
-              <div class="card mb-4">
-                <div class="card-header p-3 text-primary-emphasis bg-primary-subtle border border-primary-subtle">
-                  <h3>Add New Item</h3>
-                </div>
-                <div class="card-body">
-                  <form @submit.prevent="createItem">
-                    <div class="mb-3">
-                      <label for="name" class="form-label">Name:</label>
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="name"
-                        v-model="name"
-                        required
-                      />
-                    </div>
-                    <div class="mb-3">
-                      <label for="description" class="form-label"
-                        >Description:</label
-                      >
-                      <textarea
-                        class="form-control"
-                        id="description"
-                        v-model="description"
-                        required
-                      ></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-outline-primary">
-                      Add Item
-                    </button>
-                  </form>
-                </div>
-              </div>
+              </router-link>
             </div>
           </div>
         </div>
@@ -95,83 +30,67 @@
   </div>
 </template>
 
-<script>
-import axios from "axios";
-import Navbar from "./Navbar.vue";
+<script setup>
+import { ref } from 'vue';
+import Navbar from './Navbar.vue';
 
-export default {
-  components: {
-    Navbar,
+const loggedIn = ref(localStorage.getItem('token'));
+
+const cards = ref([
+  {
+    title: 'Members',
+    description: 'Manage church members',
+    icon: 'bi-people',
+    info: 'View and edit member details',
+    link: '/members',
   },
-  data() {
-    return {
-      items: [],
-      name: "",
-      description: "",
-      showSidebar: true,
-    };
+  {
+    title: 'Leadership',
+    description: 'Manage church leadership',
+    icon: 'bi-person-badge',
+    info: 'Assign and manage leadership roles',
+    link: '/leadership',
   },
-  computed: {
-    loggedIn() {
-      return localStorage.getItem("token");
-    },
+  {
+    title: 'Profile',
+    description: 'View and edit your profile',
+    icon: 'bi-person-circle',
+    info: 'Update your personal information',
+    link: '/profile',
   },
-  created() {
-    if (this.loggedIn) {
-      this.fetchItems();
-    }
+  {
+    title: 'Settings',
+    description: 'Configure system settings',
+    icon: 'bi-gear',
+    info: 'Change application settings',
+    link: '/settings',
   },
-  methods: {
-    toggleSidebar() {
-      this.showSidebar = !this.showSidebar;
-    },
-    async fetchItems() {
-      try {
-        const response = await axios.get("http://127.0.0.1:8000/api/items/", {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        });
-        this.items = response.data;
-      } catch (error) {
-        console.error(error);
-      }
-    },
-    async createItem() {
-      try {
-        const response = await axios.post(
-          "http://127.0.0.1:8000/api/items/",
-          {
-            name: this.name,
-            description: this.description,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          },
-        );
-        this.items.push(response.data);
-        this.name = "";
-        this.description = "";
-      } catch (error) {
-        console.error(error);
-      }
-    },
-    async deleteItem(id) {
-      try {
-        await axios.delete(`http://127.0.0.1:8000/api/items/${id}/`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        });
-        this.items = this.items.filter((item) => item.id !== id);
-      } catch (error) {
-        console.error(error);
-      }
-    },
+  {
+    title: 'Events',
+    description: 'View upcoming events',
+    icon: 'bi-calendar-event',
+    info: 'Create and manage events',
+    link: '/events',
   },
-};
+  {
+    title: 'Finance',
+    description: 'Manage church finances',
+    icon: 'bi-currency-dollar',
+    info: 'Track donations and expenses',
+    link: '/finance',
+  },
+]);
 </script>
 
-<style scoped></style>
+<style scoped>
+.card {
+  cursor: pointer;
+}
+.card:hover {
+  background-color: #f8f9fa;
+}
+.bi {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+</style>
