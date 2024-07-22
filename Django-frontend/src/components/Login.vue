@@ -2,7 +2,7 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-      <a class="navbar-brand mb-0 h1 me-5" href="#">ACW Website✨</a>
+      <a class="navbar-brand mb-0 h1 me-5" href="#">Dove Cristian Fellowship</a>
       <button
         class="navbar-toggler"
         type="button"

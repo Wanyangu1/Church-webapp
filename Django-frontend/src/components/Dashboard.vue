@@ -1,31 +1,40 @@
-<!-- src/components/Dashboard.vue -->
 <template>
   <div>
-    <navbar></navbar>
+    <Navbar />
 
-    <div class="row mt-4">
-      <main class="col-md-9 mx-auto col-lg-10 px-md-4">
-        <div v-if="!loggedIn" class="alert alert-warning">
-          <p>Please log in to view your dashboard.</p>
-          <router-link to="/login" class="btn btn-primary">Login</router-link>
-          <router-link to="/register" class="btn btn-secondary">Register</router-link>
-        </div>
+    <div class="container mt-4">
+      <!-- Breadcrumbs -->
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><router-link to="/">Home</router-link></li>
+          <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+        </ol>
+      </nav>
 
-        <div v-else>
-          <div class="row">
-            <div class="col-md-4 mb-4" v-for="card in cards" :key="card.title">
-              <router-link :to="card.link" class="card h-100 text-decoration-none text-dark">
-                <div class="card-body text-center">
-                  <i :class="`bi ${card.icon} mb-3`" style="font-size: 2rem;"></i>
-                  <h5 class="card-title">{{ card.title }}</h5>
-                  <p class="card-text">{{ card.description }}</p>
-                  <p class="card-text"><small class="text-muted">{{ card.info }}</small></p>
-                </div>
-              </router-link>
+      <div class="row mt-4">
+        <main class="col-md-9 mx-auto col-lg-10 px-md-4">
+          <div v-if="!loggedIn" class="alert alert-warning">
+            <p>Please log in to view your dashboard.</p>
+            <router-link to="/login" class="btn btn-primary">Login</router-link>
+            <router-link to="/register" class="btn btn-secondary">Register</router-link>
+          </div>
+
+          <div v-else>
+            <div class="row">
+              <div class="col-md-4 mb-4" v-for="card in cards" :key="card.title">
+                <router-link :to="card.link" class="card h-100 text-decoration-none text-dark">
+                  <div class="card-body text-center">
+                    <i :class="`bi ${card.icon} mb-3`" style="font-size: 2rem;"></i>
+                    <h5 class="card-title">{{ card.title }}</h5>
+                    <p class="card-text">{{ card.description }}</p>
+                    <p class="card-text"><small class="text-muted">{{ card.info }}</small></p>
+                  </div>
+                </router-link>
+              </div>
             </div>
           </div>
-        </div>
-      </main>
+        </main>
+      </div>
     </div>
   </div>
 </template>
